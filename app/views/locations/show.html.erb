@@ -1,0 +1,72 @@
+<% title "Location" %>
+<style>
+#map {
+  height: 300px;
+  width: 450px;
+
+}
+</style>
+
+<p>
+  <strong>Address:</strong>
+  <%= @location.address %>
+</p>
+<p>
+  <strong>City:</strong>
+  <%= @location.city %>
+</p>
+<p>
+  <strong>State:</strong>
+  <%= @location.state %>
+</p>
+<p>
+  <strong>Zip:</strong>
+  <%= @location.zipcode %>
+</p>
+<p>
+  <strong>Latitude:</strong>
+  <%= @location.latitude %>
+</p>
+<p>
+  <strong>Longitude:</strong>
+  <%= @location.longitude %>
+</p>
+
+<h3>Nearby locations</h3>
+<ul>
+<% for location in @location.nearbys(20) %>
+  <li><%= link_to location.address, location %> (<%= location.distance.round(2) %> miles)</li>
+<% end %>
+</ul>
+<p>Static Map</p>
+<%= image_tag "http://maps.google.com/maps/api/staticmap?size=450x300&sensor=false&zoom=12&markers=#{@location.latitude}%2C#{@location.longitude}" %>
+<br>
+<p>Dynamic Map</p>
+<div id="map"></div>
+   <script>
+
+     function initMap() {
+       var LatLng = {lat: <%= @location.latitude %>, lng: <%= @location.longitude %>};
+       var map = new google.maps.Map(document.getElementById('map'), {
+         center: LatLng,
+         zoom: 12
+       });
+       var marker = new google.maps.Marker({
+         position: LatLng,
+         map: map,
+         title: "<%= @location.address %>"
+       });
+
+     }
+   </script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCrlW5ZaUO2TYOUNbSoFLaNVRrbusorJLw&callback=initMap"
+    async defer>
+</script>
+
+
+
+<p>
+  <%= link_to "Edit", edit_location_path(@location) %> |
+  <%= link_to "Destroy", @location, :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "View All", locations_path %>
+</p>
