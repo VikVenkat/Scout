@@ -18,7 +18,7 @@ class Location < ActiveRecord::Base
   # validates :address, presence: true
   def set_location_information
     a = AddressInformation.new(self)
-    # Do attribute updates like the below, using the Address_information RB
+    # The above class creates a hash with name/value pairs like the below
     self.update_attributes(:zillow_id => a.fields[:zillow_id], :sqft => a.fields[:sqft], :rent_price => a.fields[:rent_price], :list_price => a.fields[:list_price] )
   end
   def set_tax_information
