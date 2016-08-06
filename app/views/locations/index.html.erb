@@ -8,16 +8,28 @@
 <% end %>
 
 <table>
+  <% location= @locations.first %>
+    <% location.attributes.each do |attr_name, attr_value| %>
+    <th> <strong><%= attr_name.titleize %></strong></th>
+    <% end %>
+
+  <!--
   <tr>
     <th>Address</th>
     <th>Latitude</th>
     <th>Longitude</th>
   </tr>
+-->
   <% for location in @locations %>
     <tr>
+      <% location.attributes.each do |attr_name, attr_value| %>
+      <td><%= attr_value %></td>
+      <% end %>
+      <!--
       <td><%= location.address %></td>
       <td><%= location.latitude %></td>
       <td><%= location.longitude %></td>
+    -->
       <td><%= link_to "Show", location %></td>
       <td><%= link_to "Edit", edit_location_path(location) %></td>
       <td><%= link_to "Destroy", location, :confirm => 'Are you sure?', :method => :delete %></td>

@@ -7,6 +7,13 @@
 }
 </style>
 
+<% @location.attributes.each do |attr_name, attr_value| %>
+  <div class="attribute">
+    <strong><%= attr_name.titleize %>:</strong> <%= attr_value %>
+  </div>
+<% end %>
+
+<!--
 <p>
   <strong>Address:</strong>
   <%= @location.address %>
@@ -31,6 +38,7 @@
   <strong>Longitude:</strong>
   <%= @location.longitude %>
 </p>
+-->
 
 <h3>Nearby locations</h3>
 <ul>

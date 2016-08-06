@@ -1,8 +1,9 @@
 class TaxInformation
+  require 'uri'
   def initialize(location)
     @location = location
   #  @base_url = "http://www.zillow.com/webservice/GetDeepSearchResults.htm?zws-id=#{ZWSID}&address=#{@location.address}&citystatezip=#{@location.zipcode}&rentzestimate=true"
-    @tax_url = "http://www.zillow.com/webservice/GetMonthlyPayments.htm?zws-id=#{ZWSID}&price=#{@location.list_price}&zip=#{@location.zipcode}"
+    @tax_url = URI.encode("http://www.zillow.com/webservice/GetMonthlyPayments.htm?zws-id=#{ZWSID}&price=#{@location.list_price.round(0)}&zip=#{@location.zipcode}")
   end
 
   def fields
@@ -10,8 +11,11 @@ class TaxInformation
   end
 
   def get_zillow_api_tax
-    Nokogiri::XML(Typhoeus.get(@tax_url).body)
-    # this makes the method name an object we can refer to
+    a = Nokogiri::XML(Typhoeus.get(@tax_url).body)
+    puts @tax_url
+    puts a.xpath('//message').text
+    return a
+
   end
 
   def zillow_api_tax
@@ -21,8 +25,9 @@ class TaxInformation
 
   def get_taxes_annual
     # note that zipcode is required for this to work
-    if @location.taxes_annual IS NULL
-      @location.taxes_annual = @zillow_tax_info.xpath('//monthlyPropertyTaxes').text.to_f
+    if @location.taxes_annual.nil?
+      a = @location.taxes_annual = zillow_api_tax.xpath('//monthlyPropertyTaxes').text.to_f
+      return 12*a
       # If that also null
       #  within Area
       #  calculate average taxpercent * Listing_price
