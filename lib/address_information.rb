@@ -27,17 +27,20 @@ class AddressInformation #This is the part referenced in the model
   end
 
   def fields
-    return {:zillow_id => get_zillow_id, :sqft => get_sqft, :rent_price => get_rent_price, :list_price => get_list_price}
-      #:taxes_annual => get_taxes_annual}
+    return {:zillow_id => get_zillow_id, :sqft => get_sqft, :rent_price => get_rent_price, :list_price => get_list_price, :beds => get_beds, :baths => get_baths, :link => get_zillow_link}
+
   end
-=begin
-  def get_zip
-    if @location.zipcode IS NULL
-      puts "Error: Locations must have zipcodes"
-      # How to get zip? Gmaps?
-    end
+  def get_beds
+    @location.beds = zillow_api_info.xpath('//bedrooms').text.to_f
   end
-=end
+
+  def get_baths
+    @location.baths = zillow_api_info.xpath('//bathrooms').text.to_f
+  end
+
+  def get_zillow_link
+    @location.zillow_page_link = zillow_api_info.xpath('//homedetails').text
+  end
 
   def get_zillow_id
     #if @location.zillow_id.nil?

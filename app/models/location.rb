@@ -1,7 +1,7 @@
 class Location < ActiveRecord::Base
 
-  attr_accessible :address, :city, :state, :zipcode, :latitude,
-    :longitude, :zillow_id, :sqft, :rent_price, :list_price, :taxes_annual,
+  attr_accessible :address, :city, :state, :zipcode, :latitude, :beds, :baths,
+    :longitude, :zillow_id, :sqft, :rent_price, :list_price, :taxes_annual, :zillow_page_link,
     :price_per_sqft, :rent_per_sqft, :taxpercent
 
   #geocoded_by :address
@@ -24,7 +24,7 @@ class Location < ActiveRecord::Base
   def set_location_information
     a = AddressInformation.new(self)
     # The above class creates a hash with name/value pairs like the below
-    self.update_attributes(:zillow_id => a.fields[:zillow_id], :sqft => a.fields[:sqft], :rent_price => a.fields[:rent_price], :list_price => a.fields[:list_price] )
+    self.update_attributes(:zillow_id => a.fields[:zillow_id], :sqft => a.fields[:sqft], :rent_price => a.fields[:rent_price], :list_price => a.fields[:list_price], :beds => a.fields[:beds], :baths => a.fields[:baths], :zillow_page_link => a.fields[:link] )
   end
   def set_tax_information
     a = TaxInformation.new(self)
