@@ -1,17 +1,6 @@
 <%= form_for @location do |f| %>
   <%= f.error_messages %>
-  <% @location.attributes.each do |attr_name, attr_value| %>
-    <% unless attr_name.eql?('id') %>
-      <% unless attr_name.eql?('created_at') %>
-        <% unless attr_name.eql?('updated_at') %>
-          <p>
-            <strong><%= f.label attr_name.titleize %>:</strong> <%= f.text_field attr_name.to_sym %>
-          </p>
-        <% end %>
-      <% end %>
-    <% end %>
-  <% end %>
-  <!--
+
   <p>
     <%= f.label :address %><br />
     <%= f.text_field :address %>
@@ -36,6 +25,6 @@
     <%= f.label :longitude %><br />
     <%= f.text_field :longitude %>
   </p>
--->
+
   <p><%= f.submit %></p>
 <% end %>

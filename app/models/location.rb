@@ -2,7 +2,9 @@ class Location < ActiveRecord::Base
 
   attr_accessible :address, :city, :state, :zipcode, :latitude, :beds, :baths,
     :longitude, :zillow_id, :sqft, :rent_price, :list_price, :taxes_annual, :zillow_page_link,
-    :price_per_sqft, :rent_per_sqft, :taxpercent
+    :price_per_sqft, :rent_per_sqft, :taxpercent,
+    :closing_price, :target_price, :maintenance, :listing_type, :commuter_hub
+
 
   #geocoded_by :address
   geocoded_by :geocoder_input
