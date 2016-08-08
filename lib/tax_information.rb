@@ -1,5 +1,5 @@
 class TaxInformation
-  require 'uri'
+  require 'uri' #this library allows us to do URL encoding
   def initialize(location)
     @location = location
   #  @base_url = "http://www.zillow.com/webservice/GetDeepSearchResults.htm?zws-id=#{ZWSID}&address=#{@location.address}&citystatezip=#{@location.zipcode}&rentzestimate=true"

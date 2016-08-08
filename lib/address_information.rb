@@ -1,5 +1,5 @@
 class AddressInformation #This is the part referenced in the model
-  require 'uri'
+  require 'uri' #This library allows us to do URL string encoding like below
 
 
   def initialize(location)

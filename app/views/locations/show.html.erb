@@ -8,9 +8,17 @@
 </style>
 
 <% @location.attributes.each do |attr_name, attr_value| %>
-  <div class="attribute">
-    <strong><%= attr_name.titleize %>:</strong> <%= attr_value %>
-  </div>
+  <% unless attr_value.to_f.nan? # trying to get differnt formats for numbers and text%> 
+    <div class="attribute">
+      <strong><%= attr_name.titleize %>:</strong> <%= attr_value %>
+    </div>
+    <% puts "using text" %>
+  <% else %>
+    <div class="attribute">
+      <u><%= attr_name.titleize %>:</u> <%= number_with_delimiter(attr_value.to_f.round(2), :delimiter => ',') %>
+    </div>
+    <% puts "using number" %>
+  <% end %>
 <% end %>
 
 <!--

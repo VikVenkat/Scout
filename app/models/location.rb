@@ -34,11 +34,16 @@ class Location < ActiveRecord::Base
   end
 
   def calculate_KPIs
-    self.update_attributes(:price_per_sqft => self.list_price / self.sqft,:rent_per_sqft => self.rent_price / self.sqft)
-    puts self.taxes_annual
-    puts self.list_price
-
-    self.update_attributes(:taxpercent => self.taxes_annual / self.list_price)
+    begin
+      self.update_attributes(:price_per_sqft => self.list_price / self.sqft,:rent_per_sqft => self.rent_price / self.sqft)
+      #puts self.taxes_annual
+      #puts self.list_price
+      self.update_attributes(:taxpercent => self.taxes_annual / self.list_price)
+    rescue TypeError
+      Rails.logger.error { "Encountered a TypeError error in Calculating KPIs. Check values: SQFT: #{self.sqft}; $List: #{self.list_price}" }
+    rescue => e
+      Rails.logger.error { "Encountered an #{e.message} in Calculating KPIs"}
+    end
   end
 
 end
