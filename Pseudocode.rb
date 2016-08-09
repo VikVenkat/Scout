@@ -62,6 +62,20 @@ end
 #    # Review location.rb with Sol
 ######==========================
 
+def calculate_price(@location)
+  if rent, tax_yr, maintenance == 0; throw an exception
+  else
+
+  target_price = ((rent*12)-tax_yr-(maintenance*12))/caprate
+  return target_price
+end
+=end
+
+#Fill empty data areas
+check the record for blanks
+For each blank, run regression with available data
+Fill regression results into slots
+
 
 ##==============================================
 # Take the locations gathered, and check if they are deals
@@ -74,7 +88,7 @@ target_price = 0
 
 def find_deals(location.all)
   for each location
-    calculate_price
+    calculate_price()
     if target_price < Listing_price
       AND if Listing_type == live
         deal == true
@@ -84,18 +98,10 @@ def find_deals(location.all)
   return deals #as a location object
 end
 
-def calculate_price(@location)
-  if rent, tax_yr, maintenance == 0; throw an exception
-  else
 
-  target_price = ((rent*12)-tax_yr-(maintenance*12))/caprate
-  return target_price
-end
-=end
+
 #========================================
 # Gather properties to screen
-# Gem Rubillow? May not be well maintained
-
 
 def gather_properties (Target_zipcode OR Area)
   if Target_zipcode isnull

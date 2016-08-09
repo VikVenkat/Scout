@@ -23,7 +23,12 @@
   <% for location in @locations %>
     <tr>
       <% location.attributes.each do |attr_name, attr_value| %>
-      <td><%= attr_value %></td>
+      <% unless attr_value.to_f.eql?(attr_value) # trying to get differnt formats for numbers and text%>
+        <td><%= attr_value.to_s[0,20] %></td>
+      <% else %>
+        <td><%= number_with_delimiter(attr_value.to_f.round(2), :delimiter => ',') %></td>
+      <% end %>
+
       <% end %>
       <!--
       <td><%= location.address %></td>

@@ -1,23 +1,32 @@
 <% title "Location" %>
 <style>
 #map {
-  height: 300px;
-  width: 450px;
+  height: 600px;
+  width: 600px;
 
 }
 </style>
 
+<% if @location.errors.full_messages.any? %>
+  <% @location.errors.full_messages.each do |error_message| %>
+    <%= error_message if @location.errors.full_messages.first == error_message %> <br />
+  <% end %>
+<% end %>
+
+<%= @location.errors.full_messages.first if @location.errors.any? %>
+
+
 <% @location.attributes.each do |attr_name, attr_value| %>
-  <% unless attr_value.to_f.nan? # trying to get differnt formats for numbers and text%> 
+  <% unless attr_value.to_f.eql?(attr_value) # trying to get differnt formats for numbers and text%>
     <div class="attribute">
       <strong><%= attr_name.titleize %>:</strong> <%= attr_value %>
     </div>
-    <% puts "using text" %>
+
   <% else %>
     <div class="attribute">
-      <u><%= attr_name.titleize %>:</u> <%= number_with_delimiter(attr_value.to_f.round(2), :delimiter => ',') %>
+      <strong><%= attr_name.titleize %>:</strong> <%= number_with_delimiter(attr_value.to_f.round(2), :delimiter => ',') %>
     </div>
-    <% puts "using number" %>
+
   <% end %>
 <% end %>
 
@@ -54,10 +63,12 @@
   <li><%= link_to location.address, location %> (<%= location.distance.round(2) %> miles)</li>
 <% end %>
 </ul>
+<!--
 <p>Static Map</p>
 <%= image_tag "http://maps.google.com/maps/api/staticmap?size=450x300&sensor=false&zoom=12&markers=#{@location.latitude}%2C#{@location.longitude}" %>
 <br>
 <p>Dynamic Map</p>
+-->
 <div id="map"></div>
    <script>
 
@@ -65,7 +76,7 @@
        var LatLng = {lat: <%= @location.latitude %>, lng: <%= @location.longitude %>};
        var map = new google.maps.Map(document.getElementById('map'), {
          center: LatLng,
-         zoom: 12
+         zoom: 14
        });
        var marker = new google.maps.Marker({
          position: LatLng,

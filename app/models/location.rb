@@ -22,7 +22,7 @@ class Location < ActiveRecord::Base
   def geocoder_input
     "#{self.address}"+","+"#{self.city}"+","+"#{self.state}"
   end
-  # validates :address, presence: true
+
   def set_location_information
     a = AddressInformation.new(self)
     # The above class creates a hash with name/value pairs like the below
@@ -41,9 +41,23 @@ class Location < ActiveRecord::Base
       self.update_attributes(:taxpercent => self.taxes_annual / self.list_price)
     rescue TypeError
       Rails.logger.error { "Encountered a TypeError error in Calculating KPIs. Check values: SQFT: #{self.sqft}; $List: #{self.list_price}" }
+      # flash[:alert] = "Encountered a TypeError error in Calculating KPIs. Check values: SQFT: #{self.sqft}; $List: #{self.list_price}"
     rescue => e
       Rails.logger.error { "Encountered an #{e.message} in Calculating KPIs"}
+      # flash[:alert] = "Encountered an #{e.message} in Calculating KPIs"
     end
+  end
+
+  def calculate_target_price
+    @target_price = 0
+    @caprate = 0.1
+    if self.rent_price == 0 || self.taxes_annual = 0 || self.maintenance == 0
+      #flash[:notice] = "Can't get target price; Check values: Rent:#{self.rent_price}, Taxes:#{self.taxes_annual}, Maint:#{self.maintenance}  "
+      puts "Can't get target price; Check values: Rent:#{self.rent_price}, Taxes:#{self.taxes_annual}, Maint:#{self.maintenance}"
+    else
+      @target_price = ((self.rent_price*12)-self.taxes_annual-(self.maintenance*12))/@caprate
+    end
+    return @target_price
   end
 
 end

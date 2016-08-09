@@ -53,7 +53,7 @@ class AddressInformation #This is the part referenced in the model
   def get_sqft
     #if @location.sqft.nil?
 
-      @location.sqft = zillow_api_info.xpath('//finishedSqFt').text
+      @location.sqft = zillow_api_info.xpath('//finishedSqFt').text.to_f
 
       # If that also null
       #  within Area
@@ -66,7 +66,7 @@ class AddressInformation #This is the part referenced in the model
 
   def get_rent_price
     #if @location.rent_price.nil?
-      @location.rent_price = zillow_api_info.xpath('//rentzestimate/amount').text
+      @location.rent_price = zillow_api_info.xpath('//rentzestimate/amount').text.to_f
       # If that also null
       #  within Area
       #  calculate average rent/sqft and * sqft

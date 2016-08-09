@@ -18,7 +18,14 @@ end
   def create
     @location = Location.new(params[:location])
     if @location.save
+#      if @location.errors.full_messages.any?
+#        @location.errors.full_messages.each do |error_message|
+#          error_message if @location.errors.full_messages.first == error_message
+#          flash[:notice] = "Had an error, #{error_message.message}"
+#        end
+#      end
       redirect_to @location, :notice => "Successfully created location."
+
     else
       render :action => 'new'
     end
