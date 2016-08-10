@@ -11,14 +11,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20160731181552) do
+ActiveRecord::Schema.define(:version => 20160809160806) do
 
   create_table "locations", :force => true do |t|
     t.string   "address"
     t.float    "latitude"
     t.float    "longitude"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
     t.string   "city"
     t.string   "state"
     t.string   "zipcode"
@@ -38,6 +38,15 @@ ActiveRecord::Schema.define(:version => 20160731181552) do
     t.float    "price_per_sqft"
     t.float    "rent_per_sqft"
     t.float    "taxpercent"
+    t.boolean  "closing_price_type"
+    t.float    "parking_units"
+    t.string   "agent"
+    t.string   "last_sold_date"
+    t.string   "last_sold_price"
+    t.string   "sqft_type"
+    t.boolean  "maintenance_type"
+    t.boolean  "taxes_annual_type"
+    t.boolean  "rent_price_type"
   end
 
 end
