@@ -1,9 +1,14 @@
 class Location < ActiveRecord::Base
 
+require 'csv'
+
   attr_accessible :address, :city, :state, :zipcode, :latitude, :beds, :baths,
     :longitude, :zillow_id, :sqft, :rent_price, :list_price, :taxes_annual, :zillow_page_link,
     :price_per_sqft, :rent_per_sqft, :taxpercent,
-    :closing_price, :target_price, :maintenance, :listing_type, :commuter_hub
+    :closing_price, :target_price, :maintenance, :listing_type, :commuter_hub,
+    :agent, :parking_units, :sqft_type, :last_sold_date, :rent_price_type,
+    :taxes_annual_type, :maintenance_type, :maint_percent, :caprate
+
 
 
   #geocoded_by :address
@@ -47,6 +52,15 @@ class Location < ActiveRecord::Base
       # flash[:alert] = "Encountered an #{e.message} in Calculating KPIs"
     end
   end
+#=====================
+#=====================
+
+def self.import(file)
+  #@file = "perth_amboy_0816.csv"
+  CSV.foreach(file.path, headers: true) do |row|
+    Location.create! row.to_hash
+  end
+end
 
   def calculate_target_price
     @target_price = 0

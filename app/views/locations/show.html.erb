@@ -17,15 +17,12 @@
 
 
 <% @location.attributes.each do |attr_name, attr_value| %>
-  <% unless attr_value.to_f.eql?(attr_value) # trying to get differnt formats for numbers and text%>
-    <div class="attribute">
-      <strong><%= attr_name.titleize %>:</strong> <%= attr_value %>
-    </div>
-
+  <% if attr_name == "listing_type" || attr_name == "sqft_type" || attr_name == "rent_price_type" || attr_name == "taxes_annual_type" || attr_name == "maintenance_type" %>
+    <p><strong><%= attr_name.titleize %>:</strong> <%= attr_value.to_s[0,20] %></td></p>
+  <% elsif attr_value.to_f.eql?(attr_value) # trying to get differnt formats for numbers and text%>
+    <p><strong><%= attr_name.titleize %>:</strong> <%= number_with_delimiter(attr_value.to_f.round(2), :delimiter => ',') %></p>
   <% else %>
-    <div class="attribute">
-      <strong><%= attr_name.titleize %>:</strong> <%= number_with_delimiter(attr_value.to_f.round(2), :delimiter => ',') %>
-    </div>
+    <p><strong><%= attr_name.titleize %>:</strong> <%= attr_value %></p>
 
   <% end %>
 <% end %>

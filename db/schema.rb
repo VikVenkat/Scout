@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20160809160806) do
+ActiveRecord::Schema.define(:version => 20160817203105) do
 
   create_table "locations", :force => true do |t|
     t.string   "address"
@@ -47,6 +47,8 @@ ActiveRecord::Schema.define(:version => 20160809160806) do
     t.boolean  "maintenance_type"
     t.boolean  "taxes_annual_type"
     t.boolean  "rent_price_type"
+    t.float    "maint_percent"
+    t.float    "caprate"
   end
 
 end
