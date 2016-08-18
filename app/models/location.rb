@@ -19,7 +19,7 @@ require 'csv'
   after_create :calculate_KPIs
 
   def self.small
-    Location.find(4)
+    Location.find(1)
   end
 
   #==========
@@ -31,11 +31,47 @@ require 'csv'
   def set_location_information
     a = AddressInformation.new(self)
     # The above class creates a hash with name/value pairs like the below
-    self.update_attributes(:zillow_id => a.fields[:zillow_id], :sqft => a.fields[:sqft], :rent_price => a.fields[:rent_price], :list_price => a.fields[:list_price], :beds => a.fields[:beds], :baths => a.fields[:baths], :zillow_page_link => a.fields[:link] )
+    if self[:zillow_id].nil?
+      self.update_attributes(:zillow_id => a.fields[:zillow_id])
+    else
+      puts "zillow_id already there"
+    end
+    if self[:sqft].nil?
+      self.update_attributes(:sqft => a.fields[:sqft])
+    else
+      puts "sqft already there"
+    end
+    if self[:rent_price].nil?
+      self.update_attributes(:rent_price => a.fields[:rent_price])
+    else
+      puts "rent already there"
+    end
+    if self[:list_price].nil?
+      self.update_attributes(:list_price => a.fields[:list_price])
+    else
+      puts "prie already there"
+    end
+    if self[:beds].nil?
+      self.update_attributes(:beds => a.fields[:beds])
+    else
+      puts "beds already there"
+    end
+    if self[:baths].nil?
+      self.update_attributes(:baths => a.fields[:baths])
+    else
+      puts "baths already there"
+    end
+    if self[:zillow_page_link].nil?
+      self.update_attributes(:zillow_page_link => a.fields[:link])
+    else
+      puts "link already there"
+    end
   end
   def set_tax_information
     a = TaxInformation.new(self)
-    self.update_attributes(:taxes_annual => a.fields[:taxes_annual] )
+    if self[:taxes_annual].nil?
+      self.update_attributes(:taxes_annual => a.fields[:taxes_annual] )
+    end
   end
 
   def calculate_KPIs
@@ -60,6 +96,11 @@ def self.import(file)
   CSV.foreach(file.path, headers: true) do |row|
     Location.create! row.to_hash
   end
+  #things that are not working
+  #closing proce
+  #target price
+  #maintenance
+
 end
 
   def calculate_target_price

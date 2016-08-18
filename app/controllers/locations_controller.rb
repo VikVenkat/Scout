@@ -30,10 +30,12 @@ end
       render :action => 'new'
     end
   end
+
   def import
     Location.import(params[:file])
     redirect_to root_url, notice => "Data Imported Successfully"
   end
+  
   def edit
     @location = Location.find(params[:id])
   end

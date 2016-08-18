@@ -3,5 +3,5 @@
 #
 # Examples:
 #
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
+   locations = Location.create([{ address: '45 Roxy Avenue', city: 'edison' , state: 'NJ'}])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
