@@ -1,0 +1,68 @@
+<p id="notice"><%= notice %></p>
+<style>
+#map {
+  height: 600px;
+  width: 800px;
+
+}
+</style>
+
+
+<% @target.attributes.each do |attr_name, attr_value| %>
+  <% if attr_name == "listing_type" || attr_name == "sqft_type" || attr_name == "rent_price_type" || attr_name == "taxes_annual_type" || attr_name == "maintenance_type" %>
+    <p><strong><%= attr_name.titleize %>:</strong> <%= attr_value.to_s[0,20] %></td></p>
+  <% elsif attr_value.to_f.eql?(attr_value) # trying to get differnt formats for numbers and text%>
+    <p><strong><%= attr_name.titleize %>:</strong> <%= number_with_delimiter(attr_value.to_f.round(2), :delimiter => ',') %></p>
+  <% else %>
+    <p><strong><%= attr_name.titleize %>:</strong> <%= attr_value %></p>
+
+  <% end %>
+<% end %>
+
+<p>Dynamic Map</p>
+
+<div id="map"></div>
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA43NiqmsbOrwTZkdNznNJKDOlVfDBT3mg&callback=initMap">
+</script>
+
+   <script>
+
+     function initMap() {
+       var LatLng = {lat: <%= @target.latitude %>, lng: <%= @target.longitude %>};
+
+       var map = new google.maps.Map(document.getElementById('map'), {
+         center: {lat: <%= @target.latitude %>, lng: <%= @target.longitude %>},
+         zoom: 14
+       });
+
+       var marker = new google.maps.Marker({
+         position: {lat: <%= @target.latitude %>, lng: <%= @target.longitude %>},
+         map: map,
+         title: "<%= @target.address %>"
+       });
+
+       var rectangle = new google.maps.Rectangle({
+                 strokeColor: '#FF0000',
+                 strokeOpacity: 0.8,
+                 strokeWeight: 2,
+                 fillColor: '#FF0000',
+                 fillOpacity: 0.35,
+                 map: map,
+                 bounds: {
+                   north: <%= @target.north %>,
+                   south: <%= @target.south %>,
+                   east: <%= @target.east %>,
+                   west: <%= @target.west %>
+                 }
+        });
+
+     }
+   </script>
+
+
+
+
+
+<%= link_to 'Edit', edit_target_path(@target) %> |
+<%= link_to 'Back', targets_path %>

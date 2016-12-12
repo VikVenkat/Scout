@@ -1,0 +1,32 @@
+<h1>Listing targets</h1>
+
+<table>
+  <% target= @targets.first %>
+    <% target.attributes.each do |attr_name, attr_value| %>
+    <th> <strong><%= attr_name.titleize %></strong></th>
+    <% end %>
+
+
+<% @targets.each do |target| %>
+  <tr>
+      <% target.attributes.each do |attr_name, attr_value| %>
+      <% if attr_name == "listing_type" || attr_name == "sqft_type" || attr_name == "rent_price_type" || attr_name == "taxes_annual_type" || attr_name == "maintenance_type" %>
+        <td><%= attr_value.to_s[0,20] %></td>
+      <% elsif attr_value.to_f.eql?(attr_value) # trying to get differnt formats for numbers and text%>
+        <td><%= number_with_delimiter(attr_value.to_f.round(2), :delimiter => ',') %></td>
+      <% else %>
+        <td><%= attr_value.to_s[0,20] %></td>
+      <% end %>
+
+      <% end %>
+
+    <td><%= link_to 'Show', target %></td>
+    <td><%= link_to 'Edit', edit_target_path(target) %></td>
+    <td><%= link_to 'Destroy', target, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Target', new_target_path %>

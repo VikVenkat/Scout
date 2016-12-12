@@ -1,0 +1,31 @@
+<%= form_for(@target) do |f| %>
+  <% if @target.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@target.errors.count, "error") %> prohibited this target from being saved:</h2>
+
+      <ul>
+      <% @target.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+
+    <p>
+      <%= f.label :latitude %><br />
+      <%= f.text_field :latitude %>
+    </p>
+    <p>
+      <%= f.label :longitude %><br />
+      <%= f.text_field :longitude %>
+    </p>
+    <p>
+      <%= f.label :radius %> (in miles)<br />
+      <%= f.text_field :radius %>
+    </p>
+
+    <%= f.submit %>
+  </div>
+<% end %>

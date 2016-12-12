@@ -10,10 +10,12 @@ require 'csv'
     :taxes_annual_type, :maintenance_type, :maint_percent, :caprate
 
 
-
-  #geocoded_by :address
   geocoded_by :geocoder_input
+
+
   after_validation :geocode, :if => :address_changed?
+  
+
   after_create :set_location_information#, :if => :address_changed?
   after_create :set_tax_information#, :if => :address_changed?
   after_create :calculate_KPIs
