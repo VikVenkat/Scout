@@ -7,11 +7,10 @@ Take in target area, eg. Perth Amboy Train Station
 
 Find nearby listings (maybe by town)
  ? https://developer.homefinder.com/ (sent request)
- ? Using Geocoder; Loop through all lat/long pairs within a bounding box
- #
- reverse_geocoded_by :latitude, :longitude,
-  :address => :location
-after_validation :reverse_geocode
+ - Given target lat/long (works!)
+ - Create box of radius (ie. .5 mi) (works!)
+ - Using Geocoder; Loop through all lat/long pairs within a bounding box
+
 
 Filter by 10 minute walking distance (~833m @ 5kph)
 
