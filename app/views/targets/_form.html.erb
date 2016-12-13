@@ -27,7 +27,7 @@
     </p>
     <p>
       <%= f.label :radius %> (in miles)<br />
-      <%= f.text_field :radius %>
+      <%= f.text_field :radius, :input_html => { :value => '0.5'} %>
     </p>
 
     <%= f.submit %>

@@ -8,6 +8,7 @@ class Target < ActiveRecord::Base
   after_validation :geocode, :if => :address_changed?
 
   after_create :set_bounds
+  after_create :create_locations
 
   def geocoder_input
     "#{self.address}"#+","+"#{self.city}"+","+"#{self.state}"

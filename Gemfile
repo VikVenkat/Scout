@@ -10,6 +10,7 @@ gem 'sqlite3'
 gem 'geocoder'
 gem 'nifty-generators', '>= 0.4.0'
 gem 'mocha'
+gem 'pry'
 
 # Gems used only for assets and not required
 # in production environments by default.

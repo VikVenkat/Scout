@@ -1,7 +1,7 @@
 class LocationList #This is the part referenced in the model
   require 'uri' #This library allows us to do URL string encoding like below
 
-  starting_set = Array.new
+
 
   def initialize(target)
     @target = target
@@ -12,32 +12,26 @@ class LocationList #This is the part referenced in the model
     @s = @target.south
     @e = @target.east
     @w = @target.west
-  end
+    @starting_set = Array.new
+  end #initialize
 
   def location_array
 
-  increment = .005
-  y = @s
-  x = @e
-  ycount = 0
-  xcount = 0
+    increment = 0.005
+    lat_range = @s..@n
+    long_range = @w..@e
 
-    while y < @n do
-      while x < @w do
-
-        starting_set[xcount][ycount] = [x][y]
-
-        x+=increment
-        xcount++
+    lat_range.step(increment).each do |la|
+      long_range.step(increment).each do |lo|
+        @starting_set << [la, lo]
       end
-      y+=increment
-      ycount++
     end
-
-    return starting_set
-  end
+#    binding.pry #this creates a breakpoint in the console, can use local variables, debug, etc
+    return @starting_set
+  end #location_array
 
   def create_locations
+
     location_array.each do |(x,y)|
 
       Location.create(:latitude => x, :longitude => y)
