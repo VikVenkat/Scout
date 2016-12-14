@@ -27,7 +27,7 @@ class AddressInformation #This is the part referenced in the model
   end
 
   def fields
-    return {:zillow_id => get_zillow_id, :sqft => get_sqft, :rent_price => get_rent_price, :list_price => get_list_price, :beds => get_beds, :baths => get_baths, :link => get_zillow_link, :city => get_city, :state => get_state, :zipcode => get_zip}
+    return {:zillow_id => get_zillow_id, :sqft => get_sqft, :rent_price => get_rent_price, :list_price => get_list_price, :beds => get_beds, :baths => get_baths, :zillow_page_link => get_zillow_link, :city => get_city, :state => get_state, :zipcode => get_zip, :address => get_address}
 
   end
   def get_beds

@@ -42,8 +42,23 @@ require 'csv'
     end
   end
 
+#def set_location_information2 #this is not working yet, trying to DRY the below
+
+  #for self.attributes.each do |x|
+  #  begin
+  #    self.update_attributes(x.to_sym => a.feilds[x.to_sym])
+  #  rescue => e
+  #    Rails.logger.error { "Encountered an #{e.message} in Setting info"}
+  #  end
+  #end
+
+  #end
+
   def set_location_information
     a = AddressInformation.new(self)
+
+
+
 
       if self[:zillow_id].nil?
         self.update_attributes(:zillow_id => a.fields[:zillow_id])
@@ -63,7 +78,7 @@ require 'csv'
       if self[:list_price].nil?
         self.update_attributes(:list_price => a.fields[:list_price])
       else
-        puts "prie already there"
+        puts "price already there"
       end
       if self[:beds].nil?
         self.update_attributes(:beds => a.fields[:beds])
@@ -76,7 +91,7 @@ require 'csv'
         puts "baths already there"
       end
       if self[:zillow_page_link].nil?
-        self.update_attributes(:zillow_page_link => a.fields[:link])
+        self.update_attributes(:zillow_page_link => a.fields[:zillow_page_link])
       else
         puts "link already there"
       end
@@ -98,6 +113,9 @@ require 'csv'
       else
         puts "zipcode already there"
       end
+
+
+      self.update_attributes(:address => a.fields[:address])
 
 
   end
