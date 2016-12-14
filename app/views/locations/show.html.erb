@@ -71,13 +71,17 @@
    <script>
 
      function initMap() {
-       var LatLng = {lat: <%= @location.latitude %>, lng: <%= @location.longitude %>};
+       var center = {lat: <%= @location.latitude %>, lng: <%= @location.longitude %>};
        var map = new google.maps.Map(document.getElementById('map'), {
-         center: LatLng,
+         center: center,
          zoom: 14
        });
+
+       var infoWindow = new google.maps.InfoWindow(), marker, i;
+    //   var markers = [<%= @location.nearbys(20) %>];
+
        var marker = new google.maps.Marker({
-         position: LatLng,
+         position: center,
          map: map,
          title: "<%= @location.address %>"
        });
@@ -87,7 +91,40 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCrlW5ZaUO2TYOUNbSoFLaNVRrbusorJLw&callback=initMap"
     async defer>
 </script>
+<!--//note the below works for 1 marker
+         var marker = new google.maps.Marker({
+           position: LatLng,
+           map: map,
+           title: "<%= @location.address %>"
+         });
+         -->
 
+         <!--// this does not work yet
+                for (i=0; i< markers.length; i++){
+
+                  var position = new google.maps.LatLng(markers[i][2], markers[i][3]);
+                  bounds.extend(position);
+                  marker = new google.maps.Marker({
+                      position: position,
+                      map: map,
+                      title: markers[i][1]
+                  });
+
+                  // Allow each marker to have an info window
+               //   google.maps.event.addListener(marker, 'click', (function(marker, i) {
+               //       return function() {
+               //           infoWindow.setContent(markers[i][1]);
+               //           infoWindow.open(map, marker);
+
+
+               //       }
+               //   })(marker, i));
+
+                  // Automatically center the map fitting all markers on the screen
+                  map.fitBounds(bounds);
+
+                 }
+                 -->
 
 
 <p>
