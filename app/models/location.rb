@@ -16,10 +16,11 @@ require 'csv'
   after_validation :geocode, :if => :address_changed?
   after_validation :reverse_geocode
 
-
   after_create :set_location_information#, :if => :address_changed?
   after_create :set_tax_information#, :if => :address_changed?
   after_create :calculate_KPIs
+
+  # after_commit :check_validity
 
   def self.small
     Location.find(1)
@@ -31,44 +32,74 @@ require 'csv'
     "#{self.address}"+","+"#{self.city}"+","+"#{self.state}"
   end
 
+  def check_validity
+    if self.list_price == 0
+      puts "Skipped #{self.address}"
+      self.destroy
+      binding.pry
+    else
+      return true
+    end
+  end
+
   def set_location_information
     a = AddressInformation.new(self)
-    # The above class creates a hash with name/value pairs like the below
-    if self[:zillow_id].nil?
-      self.update_attributes(:zillow_id => a.fields[:zillow_id])
-    else
-      puts "zillow_id already there"
-    end
-    if self[:sqft].nil?
-      self.update_attributes(:sqft => a.fields[:sqft])
-    else
-      puts "sqft already there"
-    end
-    if self[:rent_price].nil?
-      self.update_attributes(:rent_price => a.fields[:rent_price])
-    else
-      puts "rent already there"
-    end
-    if self[:list_price].nil?
-      self.update_attributes(:list_price => a.fields[:list_price])
-    else
-      puts "prie already there"
-    end
-    if self[:beds].nil?
-      self.update_attributes(:beds => a.fields[:beds])
-    else
-      puts "beds already there"
-    end
-    if self[:baths].nil?
-      self.update_attributes(:baths => a.fields[:baths])
-    else
-      puts "baths already there"
-    end
-    if self[:zillow_page_link].nil?
-      self.update_attributes(:zillow_page_link => a.fields[:link])
-    else
-      puts "link already there"
-    end
+
+      if self[:zillow_id].nil?
+        self.update_attributes(:zillow_id => a.fields[:zillow_id])
+      else
+        puts "zillow_id already there"
+      end
+      if self[:sqft].nil?
+        self.update_attributes(:sqft => a.fields[:sqft])
+      else
+        puts "sqft already there"
+      end
+      if self[:rent_price].nil?
+        self.update_attributes(:rent_price => a.fields[:rent_price])
+      else
+        puts "rent already there"
+      end
+      if self[:list_price].nil?
+        self.update_attributes(:list_price => a.fields[:list_price])
+      else
+        puts "prie already there"
+      end
+      if self[:beds].nil?
+        self.update_attributes(:beds => a.fields[:beds])
+      else
+        puts "beds already there"
+      end
+      if self[:baths].nil?
+        self.update_attributes(:baths => a.fields[:baths])
+      else
+        puts "baths already there"
+      end
+      if self[:zillow_page_link].nil?
+        self.update_attributes(:zillow_page_link => a.fields[:link])
+      else
+        puts "link already there"
+      end
+
+      if self[:city].nil?
+        self.update_attributes(:city => a.fields[:city])
+      else
+        puts "city already there"
+      end
+
+      if self[:state].nil?
+        self.update_attributes(:state => a.fields[:state])
+      else
+        puts "state already there"
+      end
+
+      if self[:zipcode].nil?
+        self.update_attributes(:zipcode => a.fields[:zipcode])
+      else
+        puts "zipcode already there"
+      end
+
+
   end
   def set_tax_information
     a = TaxInformation.new(self)

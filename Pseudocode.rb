@@ -10,6 +10,7 @@ Find nearby listings (maybe by town)
  - Create box of radius (ie. .5 mi) (works!)
  - Using Geocoder; Loop through all lat/long pairs within a bounding box (works!)
  - Check each of these addresses against Zillow (ie. turn into Locations) (works!)
+ - Catch the ones that are not real locations
 
 Evaluate if deal
  - Calculate cap rate

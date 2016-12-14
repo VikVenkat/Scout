@@ -27,7 +27,7 @@ class AddressInformation #This is the part referenced in the model
   end
 
   def fields
-    return {:zillow_id => get_zillow_id, :sqft => get_sqft, :rent_price => get_rent_price, :list_price => get_list_price, :beds => get_beds, :baths => get_baths, :link => get_zillow_link}
+    return {:zillow_id => get_zillow_id, :sqft => get_sqft, :rent_price => get_rent_price, :list_price => get_list_price, :beds => get_beds, :baths => get_baths, :link => get_zillow_link, :city => get_city, :state => get_state, :zipcode => get_zip}
 
   end
   def get_beds
@@ -67,6 +67,7 @@ class AddressInformation #This is the part referenced in the model
   def get_rent_price
     #if @location.rent_price.nil?
       @location.rent_price = zillow_api_info.xpath('//rentzestimate/amount').text.to_f
+#      binding.pry
       # If that also null
       #  within Area
       #  calculate average rent/sqft and * sqft
@@ -82,6 +83,22 @@ class AddressInformation #This is the part referenced in the model
     #else
     #  @location.list_price
     #end
+  end
+
+  def get_city
+    @location.city = zillow_api_info.xpath('//address/city').text
+  end
+
+  def get_state
+    @location.state = zillow_api_info.xpath('//address/state').text
+  end
+
+  def get_zip
+    @location.zipcode = zillow_api_info.xpath('//address/zipcode').text
+  end
+
+  def get_address
+    @location.address = zillow_api_info.xpath('//address/street').text
   end
 
 

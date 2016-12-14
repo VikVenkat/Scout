@@ -12,8 +12,8 @@ class TaxInformation
 
   def get_zillow_api_tax
     a = Nokogiri::XML(Typhoeus.get(@tax_url).body)
-    puts @tax_url
-    puts a.xpath('//message').text
+    # puts @tax_url
+    # puts a.xpath('//message').text
     return a
 
   end
@@ -25,16 +25,16 @@ class TaxInformation
 
   def get_taxes_annual
     # note that zipcode is required for this to work
-    if @location.taxes_annual.nil?
+  #  if @location.taxes_annual.nil?
       a = @location.taxes_annual = zillow_api_tax.xpath('//monthlyPropertyTaxes').text.to_f
       return 12*a
       # If that also null
       #  within Area
       #  calculate average taxpercent * Listing_price
       # end
-    else
-      @location.taxes_annual
-    end
+  #  else
+  #    @location.taxes_annual
+  #  end
   end
 
 end
