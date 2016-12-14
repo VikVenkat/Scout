@@ -78,7 +78,7 @@
        });
 
        var infoWindow = new google.maps.InfoWindow(), marker, i;
-    //   var markers = [<%= @location.nearbys(20) %>];
+       var markers = <%= raw @location.nearbys(20).to_json %>;
 
        var marker = new google.maps.Marker({
          position: center,
@@ -93,7 +93,7 @@
 </script>
 <!--//note the below works for 1 marker
          var marker = new google.maps.Marker({
-           position: LatLng,
+           position: center,
            map: map,
            title: "<%= @location.address %>"
          });
