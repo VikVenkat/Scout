@@ -7,7 +7,7 @@ require 'csv'
     :price_per_sqft, :rent_per_sqft, :taxpercent,
     :closing_price, :target_price, :maintenance, :listing_type, :commuter_hub,
     :agent, :parking_units, :sqft_type, :last_sold_date, :rent_price_type,
-    :taxes_annual_type, :maintenance_type, :maint_percent, :caprate
+    :taxes_annual_type, :maintenance_type, :maint_percent, :caprate, :closing_price_type, :last_sold_price
 
 
   geocoded_by :geocoder_input

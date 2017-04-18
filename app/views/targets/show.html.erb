@@ -19,6 +19,34 @@
   <% end %>
 <% end %>
 
+<h3>Locations Within Window</h3>
+
+<table>
+  <th> <strong> Address </strong></th>
+  <th> <strong> List Price </strong></th>
+  <th> <strong> Beds </strong></th>
+  <th> <strong> Baths</strong></th>
+  <th> <strong> Distance(mi) </strong></th>
+
+    <% for location in Location.near(@target, @target.radius, units: :mi) %>
+      <tr>
+        <td><%= location.address.to_s[0,20] %></td>
+        <td><%= number_with_delimiter(location.list_price.to_f.round(2), :delimiter => ',') %></td>
+        <td><%= location.beds.to_f.round(2) %></td>
+        <td><%= location.baths.to_f.round(2) %></td>
+        <td><%= location.distance.round(2) %></td>
+
+
+
+        <td><%= link_to "Show", location %></td>
+        <td><%= link_to "Edit", edit_location_path(location) %></td>
+        <td><%= link_to "Destroy", location, :confirm => 'Are you sure?', :method => :delete %></td>
+      </tr>
+    <% end %>
+  </table>
+
+
+
 <p>Dynamic Map</p>
 
 <div id="map"></div>
