@@ -5,20 +5,19 @@ class LocationList #This is the part referenced in the model
 
   def initialize(target, increment)
     @target = target
-    @lat = @target.latitude
-    @lon = @target.longitude
-    @radius = @target.radius #will be a distance in miles
+#    @lat = @target.latitude
+#    @lon = @target.longitude
+#    @radius = @target.radius #will be a distance in miles
     @n = @target.north
     @s = @target.south
     @e = @target.east
     @w = @target.west
-    @starting_set = Array.new
     @increment = increment.to_f
-    @location_array = Array.new
+
   end #initialize
 
   def coord_array
-
+    @starting_set = Array.new
     #increment = @increment
     lat_range = @s..@n
     long_range = @w..@e
@@ -38,21 +37,28 @@ class LocationList #This is the part referenced in the model
 #  end
 
   def create_locations
-    @geo = Hash.new
+
+    @location_array = Array.new
     @search_result
 
     coord_array.each do |(x,y)| # update this to include the above
+      @geo = Hash.new
       @search_result = Geocoder.search([x,y]).first
 
           @geo.store(:address , @search_result.street_number + " " + @search_result.route )
           @geo.store(:city , @search_result.city)
           @geo.store(:state , @search_result.state)
       @location_array.push(@geo)
+#      puts @geo
+#      puts @location_array
     end #do
-    @location_array.uniq
-    puts @location_array #works! need to dedupe
-    binding.pry
-    return @location_array
+#    puts "Outside Loop"
+#    puts @geo
+#    @location_array.uniq
+#    puts @location_array
+#    binding.pry
+    puts @location_array
+    return @location_array #works!
 
   end #create_locations
 
