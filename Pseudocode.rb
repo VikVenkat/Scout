@@ -11,6 +11,13 @@ Find nearby listings (maybe by town)
  - Using Geocoder; Loop through all lat/long pairs within a bounding box (works!)
  - Check each of these addresses against Zillow (ie. turn into Locations) (works!)
  - Catch the ones that are not real locations
+  - Do this in Ruby, not in DB checks
+  - Create an array of location objects
+  - Delete elements of array missing data (list price)
+  - Check how many elements are left
+  - If not enough, change increment and repeat
+   - Check for unique elements using array.unique or array.unique!
+  - Save array elements to the db
 
 Evaluate if deal
  - Calculate cap rate

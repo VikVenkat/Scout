@@ -7,7 +7,7 @@ class Target < ActiveRecord::Base
   after_validation :reverse_geocode
   after_validation :geocode, :if => :address_changed?
 
-  after_create :set_bounds
+  after_create :set_bounds, :if => :radius_changed?
   after_create :create_locations
 
   def geocoder_input
@@ -26,9 +26,14 @@ class Target < ActiveRecord::Base
   def create_locations
     #using the bounds above, loop though them and get addresses
     #create each address as a Location
+    @increment = 0.005 #in radians not miles
 
-    a = LocationList.new(self)
-    a.create_locations
+    a = LocationList.new(self, @increment)
+    b = a.create_locations
+
+#    b = Spellcheck.new(a)
 
   end
+
+
 end

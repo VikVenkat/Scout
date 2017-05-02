@@ -19,8 +19,7 @@ require 'csv'
   after_create :set_location_information#, :if => :address_changed?
   after_create :set_tax_information#, :if => :address_changed?
   after_create :calculate_KPIs
-
-  # after_commit :check_validity
+  after_create :check_validity
 
   def self.small
     Location.find(1)
@@ -33,10 +32,11 @@ require 'csv'
   end
 
   def check_validity
+    
     if self.list_price == 0
       puts "Skipped #{self.address}"
       self.destroy
-      binding.pry
+#      binding.pry
     else
       return true
     end
@@ -62,8 +62,8 @@ require 'csv'
 
       if self[:zillow_id].nil?
         self.update_attributes(:zillow_id => a.fields[:zillow_id])
-      else
-        puts "zillow_id already there"
+#      else
+#        puts "zillow_id already there"
       end
       if self[:sqft].nil?
         self.update_attributes(:sqft => a.fields[:sqft])

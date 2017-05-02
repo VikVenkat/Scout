@@ -26,14 +26,16 @@
   <th> <strong> List Price </strong></th>
   <th> <strong> Beds </strong></th>
   <th> <strong> Baths</strong></th>
+  <th> <strong> SqFt</strong></th>
   <th> <strong> Distance(mi) </strong></th>
 
     <% for location in Location.near(@target, @target.radius, units: :mi) %>
       <tr>
-        <td><%= location.address.to_s[0,20] %></td>
+        <td><%= location.address.to_s[0,30] %></td>
         <td><%= number_with_delimiter(location.list_price.to_f.round(2), :delimiter => ',') %></td>
         <td><%= location.beds.to_f.round(2) %></td>
         <td><%= location.baths.to_f.round(2) %></td>
+        <td><%= location.sqft.to_f.round(2) %></td>
         <td><%= location.distance.round(2) %></td>
 
 
@@ -95,3 +97,4 @@
 <%= link_to 'Edit', edit_target_path(@target) %> |
 <%= link_to 'Back', targets_path %> |
 <%= link_to 'Locations', locations_path %>
+<%= link_to 'New Target', new_target_path %>
