@@ -4,7 +4,9 @@ class AddressInformation #This is the part referenced in the model
 
   def initialize(location)
     @location = location
+#    @location_hash = location.to_hash
     @city_state_zip = "#{@location.city}"+","+"#{@location.state}"+","+"#{@location.zipcode}"
+#    @city_state_zip = "#{@location_hash[:city]}"+","+"#{@location_hash[:state]}"+","+"#{@location_hash[:zipcode]}"
     @base_url = URI.encode("http://www.zillow.com/webservice/GetDeepSearchResults.htm?zws-id=#{ZWSID}&address=#{@location.address}&citystatezip=#{@city_state_zip}&rentzestimate=true")
   #  @tax_url = "http://www.zillow.com/webservice/GetMonthlyPayments.htm?zws-id=#{ZWSID}&price=#{@location.list_price}&zip=#{@location.zipcode}"
   #  @test_url = "http://www.zillow.com/webservice/GetDeepSearchResults.htm?zws-id=X1-ZWz19muc0cecy3_4eq90&address=2114+Bigelow+Ave&citystatezip=Seattle%2C+WA&rentzestimate=true"

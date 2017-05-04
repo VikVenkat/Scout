@@ -32,9 +32,7 @@ class LocationList #This is the part referenced in the model
     return @starting_set
   end #coord_array
 
-#  def fields
-#    return coord_array
-#  end
+
 
   def create_locations
 
@@ -42,12 +40,14 @@ class LocationList #This is the part referenced in the model
     @search_result
 
     coord_array.each do |(x,y)| # update this to include the above
-      @geo = Hash.new
+      @geo = Location.new
       @search_result = Geocoder.search([x,y]).first
 
-          @geo.store(:address , @search_result.street_number + " " + @search_result.route )
-          @geo.store(:city , @search_result.city)
-          @geo.store(:state , @search_result.state)
+          @geo.address = @search_result.street_number + " " + @search_result.route
+          @geo.city = @search_result.city
+          @geo.state = @search_result.state
+          @geo.zipcode = @search_result.postal_code
+#      binding.pry
       @location_array.push(@geo)
 #      puts @geo
 #      puts @location_array
@@ -57,7 +57,7 @@ class LocationList #This is the part referenced in the model
 #    @location_array.uniq
 #    puts @location_array
 #    binding.pry
-    puts @location_array
+#    puts @location_array
     return @location_array #works!
 
   end #create_locations

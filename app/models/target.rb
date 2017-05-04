@@ -26,12 +26,13 @@ class Target < ActiveRecord::Base
   def create_locations
     #using the bounds above, loop though them and get addresses
     #create each address as a Location
-    @increment = 0.005 #in radians not miles
+    @increment = 0.005 #in radians (of the earth!) not miles
 
     a = LocationList.new(self, @increment)
     b = a.create_locations
 
-#    b = Spellcheck.new(a)
+    c = Spellcheck.new(b, @increment)
+    d = c.price_check
 
   end
 
