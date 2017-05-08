@@ -14,7 +14,8 @@ Find nearby listings (maybe by town)
  Catch the ones that are not real locations
   - Do this in Ruby, not in DB checks (In progress...)
   - Create an array of location objects (works!)
-  - Fill in required info on these locations (In Progress)
+  - Fill in required info on these locations (works!)
+    - Zillow has taken down their MonthlyPayments API...need a new way to estimate taxes
   - Delete elements of array missing data - ie. list price
   - Check how many elements are left
   - If not enough, change increment and repeat

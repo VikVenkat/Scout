@@ -28,11 +28,11 @@ class Target < ActiveRecord::Base
     #create each address as a Location
     @increment = 0.005 #in radians (of the earth!) not miles
 
-    a = LocationList.new(self, @increment)
-    b = a.create_locations
+    a = TargetLocationList.new(self, @increment)
+    b = a.filled_locations
 
-    c = Spellcheck.new(b, @increment)
-    d = c.price_check
+#    c = Spellcheck.new(b, @increment)
+#    d = c.price_check
 
   end
 
