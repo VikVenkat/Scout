@@ -82,22 +82,54 @@ class TargetLocationList #This is the part referenced in the model
     filled_locations.each do |loc|
       begin
 
+        if loc.sqft == 0
+          @c = Array.new
+          @c = Location.where('beds like ? AND city like ? AND sqft > ?', loc.beds, loc.city, 0) #gather up sqft of same beds in that city
+          @avg_sqft = @c.average("sqft")
+          loc.update_attributes(:sqft => @avg_sqft)
+          loc.update_attributes(:sqft_type => false)
+          binding.pry
+        end #if sqft
+
         loc.update_attributes(:price_per_sqft => loc.list_price / loc.sqft)
 
         if loc.rent_price == 0
           @a = Array.new
-          @a = Location.where(beds: loc.beds, zipcode: loc.zipcode, rent_price > 0) # select existing records from the same town with the same # bedrooms
-          @b = @a.average("rent_price") 
+          @a = Location.where('beds like ? AND zipcode like ? AND rent_price > ?',loc.beds, loc.zipcode, 0) # select existing records from the same town with the same # bedrooms
+          @avg_rent = @a.average("rent_price")
+          loc.update_attributes(:rent_price => @avg_rent)
+          loc.update_attributes(:rent_price_type => false)
           binding.pry
-        end #if
+        end #if rent
         loc.update_attributes(:rent_per_sqft => loc.rent_price / loc.sqft)
-        #loc.update_attributes(:taxpercent => loc.taxes_annual / loc.list_price)
+
+        if loc.taxes_annual == 0
+          @b = Array.new
+          @b = Location.where('city like ? AND taxes_annual > ? AND taxpercent > ? AND list_price > ?', loc.city, 0, 0, 0) #? AND taxes_annual_type = true #pull the % taxes for that City
+          @avg_taxpct = @b.average("taxpercent")
+          loc.update_attributes(:taxpercent => @avg_taxpct)
+          loc.update_attributes(:taxes_annual => @avg_taxpct * loc.list_price)
+          loc.update_attributes(:taxes_annual_type => false)
+          binding.pry
+        else
+          loc.update_attributes(:taxpercent => loc.taxes_annual / loc.list_price)
+        end # if taxes
+
+        if loc.caprate == 0
+          @a_rent = loc.rent_price *12
+          @taxes = loc.taxes_annual
+          @a_mnt = loc.maintenance*12
+          @buffer = .9
+          @numerator = (@a_rent - @taxes - @a_mnt)*@buffer
+
+          loc.update_attributes(:caprate => @numerator/loc.list_price)
+          binding.pry
+        end #if caprate
+
       rescue TypeError
-        Rails.logger.error { "Encountered a TypeError error in Calculating KPIs. Check values: SQFT: #{loc.sqft}; $List: #{loc.list_price}" }
-        # flash[:alert] = "Encountered a TypeError error in Calculating KPIs. Check values: SQFT: #{loc.sqft}; $List: #{loc.list_price}"
+        Rails.logger.error { "Encountered a TypeError error in Calculating KPIs(targets). Check values: SQFT: #{loc.sqft}; $List: #{loc.list_price}; $Tax: #{loc.taxes_annual}" }
       rescue => e
-        Rails.logger.error { "Encountered an #{e.message} in Calculating KPIs"}
-        # flash[:alert] = "Encountered an #{e.message} in Calculating KPIs"
+        Rails.logger.error { "Encountered an #{e.message} in Calculating KPIs(targets)"}
       end #begin
     end #do
   end #calculated_locations
