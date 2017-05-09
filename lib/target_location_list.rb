@@ -5,9 +5,6 @@ class TargetLocationList #This is the part referenced in the model
 
   def initialize(target, increment)
     @target = target
-#    @lat = @target.latitude
-#    @lon = @target.longitude
-#    @radius = @target.radius #will be a distance in miles
     @n = @target.north
     @s = @target.south
     @e = @target.east
@@ -54,27 +51,54 @@ class TargetLocationList #This is the part referenced in the model
   end #basic_locations
 
   def filled_locations
-    @location_array = Array.new
+    @filled_array = Array.new
 
     basic_locations.each do |loc|
-
       @addy = AddressInformation.new(loc)
-      loc.update_attributes(:zillow_id => @addy.fields[:zillow_id])
-      loc.update_attributes(:sqft => @addy.fields[:sqft])
-      loc.update_attributes(:rent_price => @addy.fields[:rent_price])
-      loc.update_attributes(:list_price => @addy.fields[:list_price])
-      loc.update_attributes(:beds => @addy.fields[:beds])
-      loc.update_attributes(:baths => @addy.fields[:baths])
-      loc.update_attributes(:zillow_page_link => @addy.fields[:zillow_page_link])
-      #works!
+        loc.update_attributes(:zillow_id => @addy.fields[:zillow_id])
+        loc.update_attributes(:sqft => @addy.fields[:sqft])
+        loc.update_attributes(:rent_price => @addy.fields[:rent_price])
+        loc.update_attributes(:list_price => @addy.fields[:list_price])
+        loc.update_attributes(:beds => @addy.fields[:beds])
+        loc.update_attributes(:baths => @addy.fields[:baths])
+        loc.update_attributes(:zillow_page_link => @addy.fields[:zillow_page_link])
+
 #      @taxy = TaxInformation.new(loc)
 #      loc.update_attributes(:taxes_annual => @taxy.fields[:taxes_annual] )
         #Zillow seems to have discontinued the API i used here
-#      @location_array.push(loc) #this is creating an infinite loop
+
+      @filled_array.push(loc)
+      #Learning note. When I was using @location_array in this step, why did it create an infinite loop
       puts loc[:address]
+
     end #do
-    binding.pry
-    return @location_array
+
+    return @filled_array #works
   end #filled_locations
 
+  def calculated_locations
+    @calc_array = Array.new
+
+    filled_locations.each do |loc|
+      begin
+
+        loc.update_attributes(:price_per_sqft => loc.list_price / loc.sqft)
+
+        if loc.rent_price == 0
+          @a = Array.new
+          @a = Location.where(beds: loc.beds, zipcode: loc.zipcode, rent_price > 0) # select existing records from the same town with the same # bedrooms
+          @b = @a.average("rent_price") 
+          binding.pry
+        end #if
+        loc.update_attributes(:rent_per_sqft => loc.rent_price / loc.sqft)
+        #loc.update_attributes(:taxpercent => loc.taxes_annual / loc.list_price)
+      rescue TypeError
+        Rails.logger.error { "Encountered a TypeError error in Calculating KPIs. Check values: SQFT: #{loc.sqft}; $List: #{loc.list_price}" }
+        # flash[:alert] = "Encountered a TypeError error in Calculating KPIs. Check values: SQFT: #{loc.sqft}; $List: #{loc.list_price}"
+      rescue => e
+        Rails.logger.error { "Encountered an #{e.message} in Calculating KPIs"}
+        # flash[:alert] = "Encountered an #{e.message} in Calculating KPIs"
+      end #begin
+    end #do
+  end #calculated_locations
 end
