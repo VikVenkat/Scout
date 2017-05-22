@@ -21,7 +21,7 @@ Find nearby listings (maybe by town)
   - If not enough, change increment and repeat
    - Check for unique elements using array.unique or array.unique!(works!)
   - Save array elements to the db (still happens by default)
-  - Dedupe
+  - Dedupe (works!)
 
 Evaluate if deal
   - Calculate cap rate (works!)

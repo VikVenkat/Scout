@@ -46,10 +46,13 @@ class MergeLocations
         if loc.rent_price != comp.rent_price
             if loc.rent_price > 0 && comp.rent_price > 0
               loc.update_attributes(:rent_price => [loc.rent_price, comp.rent_price].min)
-              loc.update_attributes(:rent_per_sqft => loc.rent_price / loc.sqft)
             else
               loc.update_attributes(:rent_price => [loc.rent_price, comp.rent_price].max)
+            end
+
+            if loc.sqft > 0
               loc.update_attributes(:rent_per_sqft => loc.rent_price / loc.sqft)
+            end
         end #if rent_price
 
         if loc.taxes_annual != comp.taxes_annual
@@ -60,7 +63,7 @@ class MergeLocations
         puts "Deleted record ID #{comp.id}"
         comp.destroy
         @counter += 1
-        end #if
+
       end #do 2
     end #do 1
     binding.pry
