@@ -8,7 +8,7 @@ class Target < ActiveRecord::Base
   after_validation :geocode, :if => :address_changed?
 
   after_create :set_bounds, :if => :radius_changed?
-  after_create :create_locations
+  after_create :create_target_comps
 
   def geocoder_input
     "#{self.address}"#+","+"#{self.city}"+","+"#{self.state}"
@@ -23,13 +23,14 @@ class Target < ActiveRecord::Base
     self.update_attributes(:west => a.fields[:west])
   end
 
-  def create_locations
+  def create_target_comps
     #using the bounds above, loop though them and get addresses
     #create each address as a Location
     @increment = 0.005 #in radians (of the earth!) not miles
 
     a = TargetLocationList.new(self, @increment)
     b = a.caprate_locations
+    puts "#{b.length} Comps pulled for #{self.address}"
 
     c = MergeLocations.new
     d = c.merge

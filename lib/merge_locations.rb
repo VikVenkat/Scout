@@ -7,7 +7,7 @@ class MergeLocations
   def merge
     Location.all.each do |loc| #1
       # Run through each location
-      puts "#{Location.where('zillow_id == ? AND id > ?', loc.zillow_id, loc.id).count} comparisons to do for #{loc[:address]} "
+#      puts "#{Location.where('zillow_id == ? AND id > ?', loc.zillow_id, loc.id).count} comparisons to do for #{loc[:address]} "
       Location.where('zillow_id == ? AND id > ?', loc.zillow_id, loc.id).each do |comp| #2
         # Compare the location in question to dupes by zillow
         #do the merging here
@@ -66,8 +66,8 @@ class MergeLocations
 
       end #do 2
     end #do 1
-    binding.pry
+#    binding.pry
     return @counter
-  end #merge
+  end #merge #works!
 
 end #class

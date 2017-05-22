@@ -25,7 +25,12 @@ Find nearby listings (maybe by town)
 
 Evaluate if deal
   - Calculate cap rate (works!)
-  - Fix erroneous list prices
-  - Evaluate cap rate vs target (ie. 10%)
+  - Evaluate cap rate vs target (ie. 10)
+
+Fix erroneous list prices
+ - Create new variable to hold actuals data
+ - Zestimate vs actual training set
+ - Write training algorithm
+ - Update better price estimates
 
 Show deals on map
