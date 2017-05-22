@@ -29,10 +29,10 @@ class Target < ActiveRecord::Base
     @increment = 0.005 #in radians (of the earth!) not miles
 
     a = TargetLocationList.new(self, @increment)
-    b = a.calculated_locations
+    b = a.caprate_locations
 
-#    c = Spellcheck.new(b, @increment)
-#    d = c.price_check
+    c = MergeLocations.new
+    d = c.merge
 
   end
 

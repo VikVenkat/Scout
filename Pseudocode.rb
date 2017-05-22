@@ -12,18 +12,20 @@ Find nearby listings (maybe by town)
   - Check each of these addresses against Zillow (ie. turn into Locations) (works!)
 
  Catch the ones that are not real locations
-  - Do this in Ruby, not in DB checks (In progress...)
+  - Do this in Ruby, not in DB checks (works!)
   - Create an array of location objects (works!)
   - Fill in required info on these locations (works!)
-    - Zillow has taken down their MonthlyPayments API...need a new way to estimate taxes
-  - Delete elements of array missing data - ie. list price
+    - Zillow has taken down their MonthlyPayments API...need a new way to estimate taxes (works, kind of)
+  - Delete elements of array missing data - ie. list price (works!)
   - Check how many elements are left
   - If not enough, change increment and repeat
-   - Check for unique elements using array.unique or array.unique!
-  - Save array elements to the db
+   - Check for unique elements using array.unique or array.unique!(works!)
+  - Save array elements to the db (still happens by default)
+  - Dedupe
 
 Evaluate if deal
-  - Calculate cap rate
+  - Calculate cap rate (works!)
+  - Fix erroneous list prices
   - Evaluate cap rate vs target (ie. 10%)
 
 Show deals on map

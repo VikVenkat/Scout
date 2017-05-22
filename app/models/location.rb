@@ -42,6 +42,10 @@ require 'csv'
     end
   end
 
+  def merge
+    a = MergeLocations.new(self)
+  end #dedupe
+
 #def set_location_information2 #this is not working yet, trying to DRY the below
 
   #for self.attributes.each do |x|
