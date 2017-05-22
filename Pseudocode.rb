@@ -17,20 +17,21 @@ Find nearby listings (maybe by town)
   - Fill in required info on these locations (works!)
     - Zillow has taken down their MonthlyPayments API...need a new way to estimate taxes (works, kind of)
   - Delete elements of array missing data - ie. list price (works!)
-  - Check how many elements are left
-  - If not enough, change increment and repeat
+  - Check how many elements are left (WAITING for accuracy)
+  - If not enough, change increment and repeat (WAITING for accuracy)
    - Check for unique elements using array.unique or array.unique!(works!)
   - Save array elements to the db (still happens by default)
   - Dedupe (works!)
 
 Evaluate if deal
   - Calculate cap rate (works!)
-  - Evaluate cap rate vs target (ie. 10)
+  - Evaluate cap rate vs target (ie. 10) (WAITING for accuracy)
 
 Fix erroneous list prices
  - Create new variable to hold actuals data
  - Zestimate vs actual training set
  - Write training algorithm
  - Update better price estimates
+ - Go back and fix WAIT items above
 
 Show deals on map
