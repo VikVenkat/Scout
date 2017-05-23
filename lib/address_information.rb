@@ -45,46 +45,19 @@ class AddressInformation #This is the part referenced in the model
   end
 
   def get_zillow_id
-    #if @location.zillow_id.nil?
       @location.zillow_id = zillow_api_info.xpath('//zpid').text
-    #else
-    #  @location.zillow_id
-    #end
   end
 
   def get_sqft
-    #if @location.sqft.nil?
-
       @location.sqft = zillow_api_info.xpath('//finishedSqFt').text.to_f
-
-      # If that also null
-      #  within Area
-      #  calculate average sqft for number of Bedrooms
-      # end
-    #else
-    #  @location.sqft
-    #end
   end
 
   def get_rent_price
-    #if @location.rent_price.nil?
       @location.rent_price = zillow_api_info.xpath('//rentzestimate/amount').text.to_f
-#      binding.pry
-      # If that also null
-      #  within Area
-      #  calculate average rent/sqft and * sqft
-      # end
-    #else
-    #  @location.rent_price
-    #end
   end
 
   def get_list_price
-    #if @location.list_price.nil?
       @location.list_price = zillow_api_info.xpath('//zestimate/amount').text.to_f
-    #else
-    #  @location.list_price
-    #end
   end
 
   def get_city

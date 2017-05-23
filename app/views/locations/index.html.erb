@@ -16,8 +16,7 @@
     <% end %>
 </p>
 
-<%# Location.where(list_price: 0.0).destroy_all %>
-<%# binding.pry %>
+
 
 <table>
   <% location= @locations.first %>
@@ -25,17 +24,11 @@
     <th> <strong><%= attr_name.titleize %></strong></th>
     <% end %>
 
-  <!--
-  <tr>
-    <th>Address</th>
-    <th>Latitude</th>
-    <th>Longitude</th>
-  </tr>
--->
+
   <% for location in @locations %>
     <tr>
       <% location.attributes.each do |attr_name, attr_value| %>
-      <% if attr_name == "listing_type" || attr_name == "sqft_type" || attr_name == "rent_price_type" || attr_name == "taxes_annual_type" || attr_name == "maintenance_type" %>
+      <% if attr_name == "listing_type" || attr_name == "sqft_type" || attr_name == "rent_price_type" || attr_name == "taxes_annual_type" || attr_name == "maintenance_type" || attr_name == "beds_type" || attr_name == "baths_type" || attr_name == "real_price_type" %>
         <td><%= attr_value.to_s[0,20] %></td>
       <% elsif attr_value.to_f.eql?(attr_value) # trying to get differnt formats for numbers and text%>
         <td><%= number_with_delimiter(attr_value.to_f.round(2), :delimiter => ',') %></td>
@@ -44,11 +37,7 @@
       <% end %>
 
       <% end %>
-      <!--
-      <td><%= location.address %></td>
-      <td><%= location.latitude %></td>
-      <td><%= location.longitude %></td>
-    -->
+
       <td><%= link_to "Show", location %></td>
       <td><%= link_to "Edit", edit_location_path(location) %></td>
       <td><%= link_to "Destroy", location, :confirm => 'Are you sure?', :method => :delete %></td>

@@ -28,7 +28,7 @@ Evaluate if deal
   - Evaluate cap rate vs target (ie. 10) (WAITING for accuracy)
 
 Fix erroneous list prices
- - Clean up some long functions
+ - Clean up some long functions (done)
  - Create new variable to hold actuals data
  - Zestimate vs actual training set
  - Write training algorithm
@@ -36,8 +36,7 @@ Fix erroneous list prices
  - Go back and fix WAIT items above
 
 Fix other erroneous data
- - Crazy high prices
- - Missing bedrooms
+ - Missing bedrooms / bathrooms (done)
 
 Clean up flow
  - Get bootstrap gem
