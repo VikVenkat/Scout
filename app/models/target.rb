@@ -35,6 +35,9 @@ class Target < ActiveRecord::Base
     c = MergeLocations.new
     d = c.merge
 
+    e = MergeTargets.new(self)
+    f = e.merge
+
   end
 
 
