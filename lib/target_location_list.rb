@@ -103,6 +103,7 @@ class TargetLocationList #This is the part referenced in the model
       rescue => e
         Rails.logger.error { "Encountered an #{e.message} in (calculated_locations)"}
       end #begin
+      binding.pry
       @calc_array.push(loc)
     end #do
 
@@ -181,25 +182,27 @@ class TargetLocationList #This is the part referenced in the model
  def check_beds(loc)
    if loc.beds > 10 || loc.beds == 0
      @d = Array.new
-     @d = Location.where('zipcode like ? AND sqft > ? AND sqft < ? AND beds > ?', loc.zipcode, loc.sqft * 0.95, loc.sqft * 1.1, 0)
-     @avg_beds = @d.average(beds).to_f.round
+     @d = Location.where('zipcode like ? AND sqft > ? AND sqft < ? AND beds > ?', loc.zipcode, loc.sqft * 0.8, loc.sqft * 1.2, 0)
+     @avg_beds = @d.average("beds").to_f.round
      loc.update_attributes(:beds => @avg_beds)
-     #loc.update_attributes(:beds_type => false)
+     loc.update_attributes(:beds_type => false)
    else
-     #loc.update_attributes(:beds_type => true)
+     loc.update_attributes(:beds_type => true)
    end
+   return @avg_beds
  end #beds
 
  def check_baths(loc)
    if loc.baths > 10 || loc.baths == 0
      @e = Array.new
-     @e = Location.where('zipcode like ? AND sqft > ? AND sqft < ? AND baths > ?', loc.zipcode, loc.sqft * 0.95, loc.sqft * 1.1, 0)
-     @avg_baths = @e.average(baths).to_f.round
+     @e = Location.where('zipcode like ? AND sqft > ? AND sqft < ? AND baths > ?', loc.zipcode, loc.sqft * 0.8, loc.sqft * 1.2, 0)
+     @avg_baths = @e.average("baths").to_f.round
      loc.update_attributes(:baths => @avg_baths)
-     #loc.update_attributes(:baths_type => false)
+     loc.update_attributes(:baths_type => false)
    else
-     #loc.update_attributes(:baths_type => true)
+     loc.update_attributes(:baths_type => true)
    end
+   return @avg_baths
  end #baths
 
  def calc_cap

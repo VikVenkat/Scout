@@ -49,48 +49,71 @@ require 'csv'
 
   def set_location_information
     a = AddressInformation.new(self)
+    @skip_counter = 0
 
       if self[:zillow_id].nil? || self[:zillow_id] == "" || self[:zillow_id] == 0
         self.update_attributes(:zillow_id => a.fields[:zillow_id])
+      else
+        @skip_counter += 1
       end
 
       if self[:sqft].nil? || self[:sqft] == "" || self[:sqft] == 0
         self.update_attributes(:sqft => a.fields[:sqft])
+      else
+        @skip_counter += 1
       end
 
       if self[:rent_price].nil? || self[:rent_price] == "" || self[:rent_price] == 0
         self.update_attributes(:rent_price => a.fields[:rent_price])
+      else
+        @skip_counter += 1
       end
 
       if self[:list_price].nil? || self[:list_price] == "" || self[:list_price] == 0
         self.update_attributes(:list_price => a.fields[:list_price])
+      else
+        @skip_counter += 1
       end
 
       if self[:beds].nil? || self[:beds] == "" || self[:beds] == 0
         self.update_attributes(:beds => a.fields[:beds])
+      else
+        @skip_counter += 1
       end
 
       if self[:baths].nil? || self[:baths] == "" || self[:baths] == 0
         self.update_attributes(:baths => a.fields[:baths])
+      else
+        @skip_counter += 1
       end
 
       if self[:zillow_page_link].nil? || self[:zillow_page_link] == "" || self[:zillow_page_link] == 0
         self.update_attributes(:zillow_page_link => a.fields[:zillow_page_link])
+      else
+        @skip_counter += 1
       end
 
       if self[:city].nil? || self[:city] == "" || self[:city] == 0
         self.update_attributes(:city => a.fields[:city])
+      else
+        @skip_counter += 1
       end
 
       if self[:state].nil? || self[:state] == "" || self[:state] == 0
         self.update_attributes(:state => a.fields[:state])
+      else
+        @skip_counter += 1
       end
 
       if self[:zipcode].nil? || self[:zipcode] == "" || self[:zipcode] == 0
         self.update_attributes(:zipcode => a.fields[:zipcode])
+      else
+        @skip_counter += 1
       end
 
       self.update_attributes(:address => a.fields[:address])
+
+      puts "#{@skip_counter} attributes were not updated on #{self.address}"
 
 
   end
@@ -107,10 +130,10 @@ require 'csv'
 
       self.update_attributes(:taxpercent => self.taxes_annual / self.list_price)
     rescue TypeError
-      Rails.logger.error { "Encountered a TypeError error in Calculating KPIs. Check values: SQFT: #{self.sqft}; $List: #{self.list_price}" }
+      Rails.logger.error { "Encountered a TypeError error in (calculating KPIs). Check values: SQFT: #{self.sqft}; $List: #{self.list_price}" }
       # flash[:alert] = "Encountered a TypeError error in Calculating KPIs. Check values: SQFT: #{self.sqft}; $List: #{self.list_price}"
     rescue => e
-      Rails.logger.error { "Encountered an #{e.message} in Calculating KPIs"}
+      Rails.logger.error { "Encountered an #{e.message} in (calculating KPIs). Check values: SQFT: #{self.sqft}; $List: #{self.list_price}"}
       # flash[:alert] = "Encountered an #{e.message} in Calculating KPIs"
     end
   end
@@ -123,10 +146,7 @@ require 'csv'
       Location.create! row.to_hash
       binding.pry
     end #do
-    #things that are not working
-    #closing proce
-    #target price
-    #maintenance
+    #seems not to get address for some reason
 
   end #import
 
