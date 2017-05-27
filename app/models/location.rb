@@ -11,15 +11,25 @@ require 'csv'
     :real_price, :real_price_type, :beds_type, :baths_type
 
 
-  geocoded_by :geocoder_input
+  geocoded_by :geocoder_input do |obj, results|
+    if loc = results.first
+      obj.address = loc.street_address
+      obj.city = loc.city
+      obj.state = loc.state
+      obj.zipcode = loc.postal_code
+      obj.latitude = loc.latitude
+      obj.longitude = loc.longitude
+#      binding.pry #adding lat and long here broke everything...
+    end
+  end
   reverse_geocoded_by :latitude, :longitude
 
   after_validation :geocode, :if => :address_changed?
   after_validation :reverse_geocode
 
   after_create :set_location_information#, :if => :address_changed?
-  after_create :set_tax_information#, :if => :address_changed?
-  after_create :calculate_KPIs
+#  after_create :set_tax_information#, :if => :address_changed?
+#  after_create :calculate_KPIs
 
   def self.small
     Location.find(1)
@@ -69,11 +79,11 @@ require 'csv'
         @skip_counter += 1
       end
 
-      if self[:list_price].nil? || self[:list_price] == "" || self[:list_price] == 0
+#      if self[:list_price].nil? || self[:list_price] == "" || self[:list_price] == 0
         self.update_attributes(:list_price => a.fields[:list_price])
-      else
-        @skip_counter += 1
-      end
+#      else
+#        @skip_counter += 1
+#      end
 
       if self[:beds].nil? || self[:beds] == "" || self[:beds] == 0
         self.update_attributes(:beds => a.fields[:beds])
@@ -111,9 +121,10 @@ require 'csv'
         @skip_counter += 1
       end
 
-      self.update_attributes(:address => a.fields[:address])
-
-      puts "#{@skip_counter} attributes were not updated on #{self.address}"
+      self.update_attributes(:address => a.fields[:address].to_s)
+#      binding.pry
+      puts "#{@skip_counter} attributes were not updated on #{a.fields[:address]}"
+      #sol why doesn't this actually update address?
 
 
   end
@@ -141,12 +152,17 @@ require 'csv'
 #=====================
 
   def self.import(file)
+#    begin
     #@file = "perth_amboy_0816.csv"
     CSV.foreach(file.path, headers: true) do |row|
       Location.create! row.to_hash
-      binding.pry
+#      binding.pry
     end #do
-    #seems not to get address for some reason
+#    rescue NoMethodError
+#      Rails.logger.error { "No File Specified" }
+      #
+
+#    end #begin
 
   end #import
 

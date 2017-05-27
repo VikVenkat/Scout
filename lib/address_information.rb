@@ -4,12 +4,11 @@ class AddressInformation #This is the part referenced in the model
 
   def initialize(location)
     @location = location
-#    @location_hash = location.to_hash
     @city_state_zip = "#{@location.city}"+","+"#{@location.state}"+","+"#{@location.zipcode}"
-#    @city_state_zip = "#{@location_hash[:city]}"+","+"#{@location_hash[:state]}"+","+"#{@location_hash[:zipcode]}"
     @base_url = URI.encode("http://www.zillow.com/webservice/GetDeepSearchResults.htm?zws-id=#{ZWSID}&address=#{@location.address}&citystatezip=#{@city_state_zip}&rentzestimate=true")
   #  @tax_url = "http://www.zillow.com/webservice/GetMonthlyPayments.htm?zws-id=#{ZWSID}&price=#{@location.list_price}&zip=#{@location.zipcode}"
   #  @test_url = "http://www.zillow.com/webservice/GetDeepSearchResults.htm?zws-id=X1-ZWz19muc0cecy3_4eq90&address=2114+Bigelow+Ave&citystatezip=Seattle%2C+WA&rentzestimate=true"
+  #  binding.pry
   end
 
   def get_address_information
@@ -29,9 +28,29 @@ class AddressInformation #This is the part referenced in the model
   end
 
   def fields
+#    begin
+#      @a = get_address
+#      @get_beds = get_beds
+#      @get_baths = get_baths
+#      @get_zillow_id = get_zillow_id
+#      @get_zillow_link = get_zillow_link
+#      @get_sqft = get_sqft
+#      @get_rent_price = get_rent_price
+#      @get_list_price = get_list_price
+#      @get_city = get_city
+#      @get_state = @location.state
+#      @get_zip = get_zip
+#      @get_address = get_address
+#      puts @get_address
+#      binding.pry
+#    rescue => e
+#      Rails.logger.error { "Encountered an #{e.message} in (AddressInformation) for #{@get_address}"}
+#      binding.pry
+#    end
     return {:zillow_id => get_zillow_id, :sqft => get_sqft, :rent_price => get_rent_price, :list_price => get_list_price, :beds => get_beds, :baths => get_baths, :zillow_page_link => get_zillow_link, :city => get_city, :state => get_state, :zipcode => get_zip, :address => get_address}
-
   end
+
+####################
   def get_beds
     @location.beds = zillow_api_info.xpath('//bedrooms').text.to_f
   end
@@ -58,6 +77,7 @@ class AddressInformation #This is the part referenced in the model
 
   def get_list_price
       @location.list_price = zillow_api_info.xpath('//zestimate/amount').text.to_f
+#      binding.pry
   end
 
   def get_city
@@ -73,6 +93,9 @@ class AddressInformation #This is the part referenced in the model
   end
 
   def get_address
+    # but sometimes there are multiple addresse. How to get them all? #sol
+    # updating these pulls with a ).first.text then breaks because errors are thrown instead of blanks
+    # do i have to write begin loops on all of these?
     @location.address = zillow_api_info.xpath('//address/street').text
   end
 

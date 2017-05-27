@@ -29,7 +29,8 @@ Evaluate if deal
 
 Fix erroneous list prices
  - Clean up some long functions (done)
- - Create new variable to hold actuals data
+ - Create new variable to hold actuals data(done)
+ - Update codes to use new variable
  - Zestimate vs actual training set
  - Write training algorithm
  - Update better price estimates
@@ -37,6 +38,7 @@ Fix erroneous list prices
 
 Fix other erroneous data
  - Missing bedrooms / bathrooms (done)
+ - Get all the addresses when multiple are matched
 
 Clean up flow
  - Get bootstrap gem

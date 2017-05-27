@@ -51,7 +51,7 @@ class TargetLocationList #This is the part referenced in the model
       @location_array.push(loc)
 
     end #do
-#    binding.pry # to check .uniq
+    # binding.pry # to check .uniq
     return @location_array.uniq #check this #seems to work
 
   end #basic_locations
@@ -61,22 +61,31 @@ class TargetLocationList #This is the part referenced in the model
 
     basic_locations.each do |loc|
       @addy = AddressInformation.new(loc)
-        loc.update_attributes(:zillow_id => @addy.fields[:zillow_id])
-        loc.update_attributes(:sqft => @addy.fields[:sqft])
-        loc.update_attributes(:rent_price => @addy.fields[:rent_price])
-        loc.update_attributes(:list_price => @addy.fields[:list_price])
-        loc.update_attributes(:beds => @addy.fields[:beds])
-        loc.update_attributes(:baths => @addy.fields[:baths])
-        loc.update_attributes(:zillow_page_link => @addy.fields[:zillow_page_link])
-        loc.update_attributes(:address => @addy.fields[:address])
+#        loc.update_attributes(:zillow_id => @addy.fields[:zillow_id])
+#        loc.update_attributes(:sqft => @addy.fields[:sqft])
+#        loc.update_attributes(:rent_price => @addy.fields[:rent_price])
+#        loc.update_attributes(:list_price => @addy.fields[:list_price])
+#        loc.update_attributes(:beds => @addy.fields[:beds])
+#        loc.update_attributes(:baths => @addy.fields[:baths])
+#        loc.update_attributes(:zillow_page_link => @addy.fields[:zillow_page_link])
+#        loc.update_attributes(:address => @addy.fields[:address]) #sol this is not working
+
+        loc.zillow_id = @addy.fields[:zillow_id]
+        loc.sqft = @addy.fields[:sqft]
+        loc.rent_price = @addy.fields[:rent_price]
+        loc.list_price = @addy.fields[:list_price]
+        loc.beds = @addy.fields[:beds]
+        loc.baths = @addy.fields[:baths]
+        loc.zillow_page_link = @addy.fields[:zillow_page_link]
+        loc.address = @addy.fields[:address]
+
+
 #      @taxy = TaxInformation.new(loc)
 #      loc.update_attributes(:taxes_annual => @taxy.fields[:taxes_annual] )
         #Zillow seems to have discontinued the API i used here
-
+        puts loc[:address]
       @filled_array.push(loc)
-
-      puts loc[:address]
-#      binding.pry #why am i not getting address right? #sol
+    binding.pry  #sol
 
     end #do
     @filled_array.delete_if do |c|
@@ -103,7 +112,7 @@ class TargetLocationList #This is the part referenced in the model
       rescue => e
         Rails.logger.error { "Encountered an #{e.message} in (calculated_locations)"}
       end #begin
-      binding.pry
+#      binding.pry
       @calc_array.push(loc)
     end #do
 
@@ -205,7 +214,7 @@ class TargetLocationList #This is the part referenced in the model
    return @avg_baths
  end #baths
 
- def calc_cap
+ def calc_cap(loc)
    if loc.caprate.nil? || loc.caprate == 0
      @a_rent = loc.rent_price*12
      @taxes = loc.taxes_annual
@@ -216,7 +225,7 @@ class TargetLocationList #This is the part referenced in the model
      puts loc[:address]
 
      loc.update_attributes(:caprate => @newcap)
-#          binding.pry
+#     binding.pry
    end #if
  end #cap
 end

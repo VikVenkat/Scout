@@ -33,7 +33,7 @@
       <% elsif attr_value.to_f.eql?(attr_value) # trying to get differnt formats for numbers and text%>
         <td><%= number_with_delimiter(attr_value.to_f.round(2), :delimiter => ',') %></td>
       <% else %>
-        <td><%= attr_value.to_s[0,20] %></td>
+        <td><%= attr_value.to_s[0,40] %></td>
       <% end %>
 
       <% end %>
