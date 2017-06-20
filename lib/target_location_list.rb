@@ -60,7 +60,8 @@ class TargetLocationList #This is the part referenced in the model
     @filled_array = Array.new
 
     basic_locations.each do |loc|
-      @addy = AddressInformation.new(loc)
+      AddressInformation.new(loc).update_location
+      # @addy.update_location
 #        loc.update_attributes(:zillow_id => @addy.fields[:zillow_id])
 #        loc.update_attributes(:sqft => @addy.fields[:sqft])
 #        loc.update_attributes(:rent_price => @addy.fields[:rent_price])
@@ -70,29 +71,31 @@ class TargetLocationList #This is the part referenced in the model
 #        loc.update_attributes(:zillow_page_link => @addy.fields[:zillow_page_link])
 #        loc.update_attributes(:address => @addy.fields[:address]) #sol this is not working
 
-        loc.zillow_id = @addy.fields[:zillow_id]
-        loc.sqft = @addy.fields[:sqft]
-        loc.rent_price = @addy.fields[:rent_price]
-        loc.list_price = @addy.fields[:list_price]
-        loc.beds = @addy.fields[:beds]
-        loc.baths = @addy.fields[:baths]
-        loc.zillow_page_link = @addy.fields[:zillow_page_link]
-        loc.address = @addy.fields[:address]
+        # fields = @addy.fields
+        # loc.zillow_id = fields[:zillow_id]
+        # loc.sqft = fields[:sqft]
+        # loc.rent_price = fields[:rent_price]
+        # loc.list_price = fields[:list_price]
+        # loc.beds = fields[:beds]
+        # loc.baths = fields[:baths]
+        # loc.zillow_page_link = fields[:zillow_page_link]
+        # loc.address = fields[:address]
 
 
 #      @taxy = TaxInformation.new(loc)
 #      loc.update_attributes(:taxes_annual => @taxy.fields[:taxes_annual] )
         #Zillow seems to have discontinued the API i used here
-        puts loc[:address]
-      @filled_array.push(loc)
-    binding.pry  #sol
+        puts loc.address
+        loc.save
+      @filled_array.push(loc) unless loc.list_price == 0
+#    binding.pry  #sol
 
     end #do
-    @filled_array.delete_if do |c|
-      if c[:list_price] == 0
-        true
-      end #if
-    end #do
+    # @filled_array.delete_if do |c|
+    #   if c[:list_price] == 0
+    #     true
+    #   end #if
+    # end #do
     return @filled_array #works
   end #filled_locations
 

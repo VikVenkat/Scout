@@ -2,7 +2,7 @@ class UploadCSVData
   require 'csv'
   def initialize
 #    @data = CSV.read("perth_amboy_0816.csv")
-    #@parsed = Array.new
+    @parsed = Array.new
   end
 
 def cleanup

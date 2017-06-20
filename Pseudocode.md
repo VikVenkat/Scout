@@ -41,6 +41,7 @@ Fix other erroneous data
  - Get all the addresses when multiple are matched
 
 Clean up flow
+ - Look at VCRCable gem and install that
  - Get bootstrap gem
  - First, type in target
  - Search own DB before Zillow
