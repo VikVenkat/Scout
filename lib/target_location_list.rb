@@ -49,6 +49,7 @@ class TargetLocationList #This is the part referenced in the model
           loc.state = @search_result.state
           loc.zipcode = @search_result.postal_code
       @location_array.push(loc)
+      sleep(0.1) #sleep for 100ms b/c Google geocoding api limits 50 calls/sec
 
     end #do
     # binding.pry # to check .uniq
