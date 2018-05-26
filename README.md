@@ -10,6 +10,8 @@ I've included my working set of past deals in perth_amboy_0816.csv. These can be
 2) Search out a target:
 A target, in this schema, is a location of interest. It could also be an actual deal that you want to diligence. Running on local, go into the ui (ie. run rails s and then hit localhost in your browser) and click "New Target". You can provide lat/long or an address (and address field hits google so can be nearly anything, though it helps to throw in a zipcode). Then give a radius in miles. 0.1 is a good starting point for speed purposes.
 
+If you can't think of a target, try "305 Holly Dr, Perth Amboy, NJ"
+
 The target is geocoded, and we set out a square with the specified radius. We check the square in increments for valid addresses, and create them as Locations.
 
 Locations are bumped against the Zillow API to see whether they have a house at them, and if yes, various relevant information is pulled against them: Pricing info, sizing, and other metadata. See AddressInformation to see exactly what.
