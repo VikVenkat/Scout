@@ -29,8 +29,6 @@ class TargetLocationList #This is the part referenced in the model
         @starting_set << [la, lo]
       end
     end
-#    binding.pry #this creates a breakpoint in the console, can use local variables, debug, etc
-
     return @starting_set
   end #coord_array
 
